@@ -1,1 +1,174 @@
-PLACEHOLDER_FULL_HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Théorie en psychomotricité</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#faf7f2;--card:#fff;--tx:#2b2a28;--mu:#6f6a62;--ac:#2f6f62;--ac2:#e3efeb;--bd:#e4ded3;--wa:#fff3d6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1b19;--card:#262522;--tx:#ece8e1;--mu:#a09a90;--ac:#6fc0ae;--ac2:#25382f;--bd:#3a3834;--wa:#40351a}}
+:root[data-theme="dark"]{--bg:#1c1b19;--card:#262522;--tx:#ece8e1;--mu:#a09a90;--ac:#6fc0ae;--ac2:#25382f;--bd:#3a3834;--wa:#40351a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Georgia,'Times New Roman',serif}
+header{max-width:900px;margin:0 auto;padding:20px 16px 0}
+h1{font-size:1.5rem;margin:0 0 2px}
+.sub{color:var(--mu);font:.9rem system-ui,sans-serif;margin:0 0 14px}
+nav{display:flex;gap:6px;font-family:system-ui,sans-serif}
+nav button{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:.95rem}
+nav button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+main{max-width:900px;margin:0 auto;padding:14px 16px 60px;font-family:system-ui,sans-serif}
+.bar{display:flex;gap:8px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit}
+textarea{min-height:90px}
+.btn{border:1px solid var(--ac);background:var(--ac);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;font:inherit;font-size:.9rem}
+.btn.s{background:transparent;color:var(--ac)}
+.btn.d{border-color:#b3412f;color:#b3412f;background:transparent}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.card h3{margin:0;font:600 1.05rem Georgia,serif}
+.who{color:var(--ac);cursor:pointer;font-size:.85rem;background:none;border:0;padding:0;text-decoration:underline}
+.def{margin:4px 0 0}
+.prof{color:var(--mu);font-size:.88rem;margin:2px 0 8px}
+.letter{font:600 1.1rem Georgia,serif;color:var(--ac);margin:18px 0 6px;border-bottom:1px solid var(--bd)}
+.t{padding:8px 0;border-top:1px solid var(--bd)}.t:first-of-type{border:0}
+.lb{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);margin:10px 0 2px}
+ul{margin:0;padding-left:18px}li{margin-bottom:4px}
+.note{background:var(--wa);border-radius:6px;padding:6px 10px;font-size:.85rem;margin:6px 0}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.x{border:0;background:none;color:var(--mu);cursor:pointer;font-size:.8rem}
+.empty,.msg{color:var(--mu);text-align:center;padding:30px 0}
+#md{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+#md.on{display:flex}
+#md form,#md .box{background:var(--bg);border-radius:12px;padding:18px;width:100%;max-width:520px;max-height:90vh;overflow:auto}
+#md label{display:block;font-size:.85rem;color:var(--mu);margin:10px 0 3px}
+#err{color:#b3412f;font-size:.85rem;min-height:1.2em;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+<h1>Théorie en psychomotricité</h1>
+<p class="sub">Termes, auteurs et références pour nourrir la réflexion autour des cas de stage.</p>
+<div class="bar" style="margin:0 0 12px;font-family:system-ui,sans-serif"><button class="btn s" id="exp">Exporter (JSON)</button><label class="btn s" style="width:auto;margin:0;cursor:pointer;color:var(--ac)">Importer<input id="imp" type="file" accept=".json" hidden></label><button class="btn d" id="rst">Réinitialiser</button></div>
+<nav><button id="n-t" class="on">Termes</button><button id="n-a">Auteurs</button></nav>
+</header>
+<main>
+<div class="bar"><input id="q" type="search" placeholder="Rechercher…"><button class="btn" id="add">+ Ajouter</button></div>
+<div id="out"><p class="msg">Chargement…</p></div>
+</main>
+<div id="md"><form id="fm"></form></div>
+<script>
+(function(){
+var SEED={"albert-coeman": {"name": "Albert Coeman", "profession": "Kinésithérapeute, psychomotricien / thérapeute en psychomotricité et formateur", "sortName": "Coeman", "terms": [{"term": "Appuis, soutiens, poussées", "definition": "mécanismes tonico-posturaux fondamentaux qui permettent à l'enfant de s'ancrer dans l'espace, de se redresser et d'organiser ses mouvements."}, {"term": "Axe corporel", "definition": "ligne de référence centrale du corps assurant l'équilibre, la stabilité et l'orientation spatiale."}, {"term": "Engagement corporel", "definition": "implication active et globale du corps de l'enfant (et du thérapeute) dans l'action et la relation."}, {"term": "Structuration psychomotrice & spatialité du jeune enfant", "definition": "construction progressive du rapport au corps, à l'espace et aux repères moteurs au fil du développement."}], "refs": ["Coeman, A., & Raulier, M. (2004). De la naissance à la marche : les étapes du développement psychomoteur de l'enfant. Étoile d'Herbe."]}, "marie-raulier": {"name": "Marie Raulier", "profession": "Psychomotricienne, puéricultrice et formatrice", "sortName": "Raulier", "terms": [{"term": "Étapes du développement psychomoteur (0–3 ans)", "definition": "évolution progressive des compétences posturales, motrices, sensorielles et relationnelles du tout-petit."}, {"term": "Appuis et soutiens", "definition": "bases corporelles et relationnelles indispensables pour sécuriser la posture et favoriser la mobilité autonome."}, {"term": "Engagement corporel dans le cadre quotidien", "definition": "mobilisation du corps dans les routines, les soins et les jeux ordinaires pour soutenir la construction psychomotrice."}], "refs": ["Coeman, A., & Raulier, M. (2004). De la naissance à la marche : les étapes du développement psychomoteur de l'enfant. Étoile d'Herbe.", "Raulier, M. (2012). Accompagner l'enfant dans son développement psychomoteur."]}};
+var tab="t",authors=[],col=null,loaded=false,open={};
+var $=function(i){return document.getElementById(i)};
+var cmp=function(a,b){return a.localeCompare(b,"fr",{sensitivity:"base"})};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function slug(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"auteur"}
+function norm(s){return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+function save(a){return col.doc(a.id).set({name:a.name,profession:a.profession||"",sortName:a.sortName||a.name.split(" ").pop(),terms:a.terms||[],refs:a.refs||[],note:a.note||""})}
+function safe(p){p.catch(function(){$("err")?($("err").textContent="Modification impossible : vous n’avez peut-être pas les droits d’édition."):alert("Modification impossible : vous n’avez peut-être pas les droits d’édition.")});return p}
+function find(id){return authors.filter(function(a){return a.id===id})[0]}
+
+function render(){
+  var q=norm($("q").value),out=$("out");out.textContent="";
+  if(!loaded){out.appendChild(el("p","msg","Chargement…"));return}
+  if(tab=== "t"){
+    var all=[];authors.forEach(function(a){a.terms.forEach(function(t,i){all.push({t:t,a:a,i:i})})});
+    all=all.filter(function(x){return !q||norm(x.t.term+" "+x.t.definition+" "+x.a.name).indexOf(q)>-1}).sort(function(x,y){return cmp(x.t.term,y.t.term)});
+    if(!all.length){out.appendChild(el("p","empty","Aucun terme."));return}
+    var L="";
+    all.forEach(function(x){
+      var l=norm(x.t.term).charAt(0).toUpperCase();
+      if(l!==L){L=l;out.appendChild(el("div","letter",l))}
+      var c=el("div","card");c.appendChild(el("h3","",x.t.term));
+      c.appendChild(el("p","def",x.t.definition||"Définition à compléter."));
+      var p=el("p","prof","");var b=el("button","who",x.a.name);b.onclick=function(){go("a",x.a.id)};p.appendChild(b);
+      var ed=el("button","x"," · modifier");ed.onclick=function(){formTerm(x.a.id,x.i)};p.appendChild(ed);
+      c.appendChild(p);out.appendChild(c)});
+  }else{
+    var list=authors.filter(function(a){return !q||norm(a.name+" "+a.profession+" "+a.terms.map(function(t){return t.term}).join(" ")+" "+a.refs.join(" ")).indexOf(q)>-1}).sort(function(x,y){return cmp(x.sortName,y.sortName)});
+    if(!list.length){out.appendChild(el("p","empty","Aucun auteur."));return}
+    list.forEach(function(a){
+      var c=el("div","card");c.id="a-"+a.id;
+      var h=el("h3","",a.name);h.style.cursor="pointer";h.onclick=function(){open[a.id]=!open[a.id];render()};c.appendChild(h);
+      c.appendChild(el("p","prof",a.profession+" · "+a.terms.length+" terme(s) · "+a.refs.length+" réf."));
+      if(open[a.id]||q){
+        if(a.note)c.appendChild(el("div","note","À vérifier : "+a.note));
+        c.appendChild(el("div","lb","Termes"));
+        a.terms.forEach(function(t,i){
+          var d=el("div","t");
+          d.appendChild(el("strong","",t.term));
+          d.appendChild(el("p","def",t.definition||"Définition à compléter."));
+          var actions=el("div","row");
+          var edit=el("button","btn s","Modifier");edit.type="button";edit.onclick=function(){formTerm(a.id,i)};actions.appendChild(edit);
+          var remove=el("button","btn d","Supprimer");remove.type="button";remove.onclick=function(){if(remove.textContent!=="Confirmer ?"){remove.textContent="Confirmer ?";return}a.terms.splice(i,1);safe(save(a))};actions.appendChild(remove);
+          d.appendChild(actions);c.appendChild(d);
+        });
+        c.appendChild(el("div","lb","Références théoriques"));
+        if(!a.refs.length)c.appendChild(el("p","def","Aucune référence."));
+        var u=el("ul");a.refs.forEach(function(r,i){var li=el("li","",r+" ");var x=el("button","x","✕");x.onclick=function(){if(x.textContent=== "✕"){x.textContent="Confirmer ?";return}a.refs.splice(i,1);safe(save(a))};li.appendChild(x);u.appendChild(li)});c.appendChild(u);
+        var r=el("div","row");
+        [["+ Terme",function(){formTerm(a.id,-1)}],["+ Référence",function(){formRef(a.id)}],["Modifier l’auteur",function(){formAuthor(a.id)}]].forEach(function(z){var b=el("button","btn s",z[0]);b.onclick=z[1];r.appendChild(b)});
+        c.appendChild(r);
+      }
+      out.appendChild(c)});
+  }
+}
+function go(t,id){tab=t;$("q").value="";if(id)open[id]=true;sync();render();if(id)setTimeout(function(){var e=$("a-"+id);e&&e.scrollIntoView({behavior:"smooth"})},50)}
+function sync(){ $("n-t").className=tab=== "t"?"on":"";$("n-a").className=tab=== "a"?"on":"";$("add").textContent=tab=== "t"?"+ Terme":"+ Auteur"}
+
+function modal(title,fields,onOk,onDel){
+  var f=$("fm");f.textContent="";f.appendChild(el("h3","",title));
+  fields.forEach(function(d){f.appendChild(el("label","",d.l));var i=d.sel?el("select"):(d.area?el("textarea"):el("input"));i.id=d.id;
+    if(d.sel){d.sel.forEach(function(o){var op=el("option","",o[1]);op.value=o[0];i.appendChild(op)})}
+    i.value=d.v||"";f.appendChild(i)});
+  f.appendChild(el("div","")).id="err";
+  var r=el("div","row");var ok=el("button","btn","Enregistrer");ok.type="submit";var no=el("button","btn s","Annuler");no.type="button";no.onclick=close;r.appendChild(ok);r.appendChild(no);
+  if(onDel){var d=el("button","btn d","Supprimer");d.type="button";d.onclick=function(){if(d.textContent!=="Supprimer"){safe(onDel().then(close));return}d.textContent="Confirmer ?"};r.appendChild(d)}
+  f.appendChild(r);
+  f.onsubmit=function(e){e.preventDefault();var p=onOk();if(p)safe(p.then(close))};
+  $("md").className="on";var first=f.querySelector("input,textarea,select");first&&first.focus()}
+function close(){ $("md").className="" }
+function v(i){return $(i).value.trim()}
+function authOpts(){return authors.slice().sort(function(a,b){return cmp(a.sortName,b.sortName)}).map(function(a){return [a.id,a.name]})}
+function formAuthor(id){
+  var a=id?find(id):null;
+  modal(a?"Modifier l’auteur":"Nouvel auteur",[{l:"Nom",id:"f-n",v:a&&a.name},{l:"Profession / domaine",id:"f-p",v:a&&a.profession},{l:"Terme (facultatif)",id:"f-t"},{l:"Définition du terme (facultatif)",id:"f-d",area:1},{l:"Référence (facultatif)",id:"f-r",area:1}].filter(function(x){return a?x.id=== "f-n"||x.id=== "f-p":true}),function(){
+    if(!v("f-n")){ $("err").textContent="Le nom est requis.";return }
+    var o=a||{id:slug(v("f-n")),terms:[],refs:[]};
+    if(!a&&find(o.id)){ $("err").textContent="Cet auteur existe déjà.";return }
+    o.name=v("f-n");o.profession=v("f-p");if(!a)o.sortName=o.name.split(" ").pop();
+    if(!a){if(v("f-t"))o.terms.push({term:v("f-t"),definition:v("f-d")});if(v("f-r"))o.refs.push(v("f-r"))}
+    return save(o)},a?function(){return col.doc(a.id).delete()}:null)}
+function formTerm(aid,i){
+  var a=aid?find(aid):null,t=a&&i>=0?a.terms[i]:null;
+  modal(t?"Modifier le terme":"Nouveau terme",[{l:"Auteur",id:"f-a",sel:authOpts(),v:aid},{l:"Terme",id:"f-t",v:t&&t.term},{l:"Définition courte",id:"f-d",area:1,v:t&&t.definition}],function(){
+    if(!v("f-t")){ $("err").textContent="Le terme est requis.";return }
+    var b=find($("f-a").value);if(!b){ $("err").textContent="Choisissez un auteur (ajoutez-le d’abord dans l’onglet Auteurs).";return }
+    var n={term:v("f-t"),definition:v("f-d")};
+    if(t&&b===a)b.terms[i]=n;else{if(t)a.terms.splice(i,1),save(a);b.terms.push(n)}
+    return save(b)},t?function(){a.terms.splice(i,1);return save(a)}:null)}
+function formRef(aid){
+  modal("Nouvelle référence",[{l:"Auteur",id:"f-a",sel:authOpts(),v:aid},{l:"Référence (format APA conseillé)",id:"f-r",area:1}],function(){
+    var b=find($("f-a").value);if(!v("f-r")||!b){ $("err").textContent="Référence requise.";return }
+    b.refs.push(v("f-r"));return save(b)})}
+
+$("n-t").onclick=function(){go("t")};$("n-a").onclick=function(){go("a")};
+$("q").oninput=render;
+$("add").onclick=function(){tab=== "t"?formTerm(null,-1):formAuthor(null)};
+$("md").onclick=function(e){if(e.target=== $("md"))close()};
+sync();
+var KEY="psychomotricite-v1",store=null;
+try{store=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!store)store=JSON.parse(JSON.stringify(SEED));
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+function refresh(){authors=Object.keys(store).map(function(id){var x=store[id];return{id:id,name:x.name||id,profession:x.profession||"",sortName:x.sortName||x.name||id,terms:x.terms||[],refs:x.refs||[],note:x.note||""}});if($("md").className!=="on")render()}
+col={doc:function(id){return{set:function(o){store[id]=o;persist();refresh();return Promise.resolve()},delete:function(){delete store[id];persist();refresh();return Promise.resolve()}}}};
+loaded=true;refresh();
+$("exp").onclick=function(){var u=URL.createObjectURL(new Blob([JSON.stringify(store,null,2)],{type:"application/json"}));var l=document.createElement("a");l.href=u;l.download="psychomotricite-donnees.json";document.body.appendChild(l);l.click();l.remove()};
+$("imp").onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);Object.keys(o).forEach(function(k){store[k]=o[k]});persist();refresh()}catch(x){alert("Fichier invalide.")}};r.readAsText(f)};
+$("rst").onclick=function(){if($("rst").textContent!=="Réinitialiser"){store=JSON.parse(JSON.stringify(SEED));persist();refresh();$("rst").textContent="Réinitialiser";return}$("rst").textContent="Confirmer ?"};
+})();
+</script>
+</body>
+</html>
